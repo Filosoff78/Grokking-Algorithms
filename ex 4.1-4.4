@@ -1,0 +1,44 @@
+<?php
+function sum($arNumbers): int
+{
+    return empty($arNumbers) ? 0 : array_shift($arNumbers) + sum($arNumbers);
+}
+
+function my_count($arNumbers): int
+{
+    return empty($arNumbers) ? 0 : 1 + my_count(array_slice($arNumbers, 1));
+}
+
+function find_max($arNumbers): int
+{
+    $maxNumber = array_shift($arNumbers);
+
+    $findMax = function ($arNumbers) use (&$findMax, &$maxNumber) {
+        if(!empty($arNumbers)) {
+            $currentNumbers = array_shift($arNumbers);
+            if ($currentNumbers > $maxNumber)
+                $maxNumber = $currentNumbers;
+
+            $findMax($arNumbers);
+        }
+    };
+
+    $findMax($arNumbers);
+    return $maxNumber;
+}
+function search_binary($target, $array): bool
+{
+    $mid = intdiv(count($array), 2);
+
+    if (count($array) === 1) {
+        return $array[0] === $target ? $array[0] : false;
+    }
+
+    if ($target >= $array[$mid]) {
+        return search_binary($target, array_slice($array, $mid + 1));
+    }
+
+    if ($target < $array[$mid]) {
+        return search_binary($target, array_slice($array, 0, $mid));
+    }
+}
